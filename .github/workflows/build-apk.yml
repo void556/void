@@ -26,11 +26,11 @@ jobs:
 
       - name: Initialize Android Build Environment
         run: |
-          ./venv/bin/pyside6-android-deploy --init || true
+          echo "y" | ./venv/bin/pyside6-android-deploy --init || true
 
       - name: Build APK with pyside6-android-deploy
         run: |
-          ./venv/bin/pyside6-android-deploy --config-file pysidedeploy.spec
+          echo "y" | ./venv/bin/pyside6-android-deploy --config-file pysidedeploy.spec
 
       - name: List files for debugging
         run: |

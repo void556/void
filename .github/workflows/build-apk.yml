@@ -1,0 +1,40 @@
+name: Build PySide6 Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyside6
+
+      - name: Initialize Android Build Environment
+        run: |
+          pyside6-android-deploy --init || true
+
+      - name: Build APK with pyside6-android-deploy
+        run: |
+          pyside6-android-deploy --config-file pysidedeploy.spec || true
+
+      - name: Find and Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: void-app-apk
+          path: |
+            bin/*.apk
+            **/*.apk

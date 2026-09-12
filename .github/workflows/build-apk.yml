@@ -18,18 +18,19 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Create Virtual Environment and Install Dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install pyside6 jinja2 pkginfo tqdm "packaging==24.1"
+          python -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/pip install pyside6 jinja2 pkginfo tqdm "packaging==24.1"
 
       - name: Initialize Android Build Environment
         run: |
-          pyside6-android-deploy --init || true
+          ./venv/bin/pyside6-android-deploy --init || true
 
       - name: Build APK with pyside6-android-deploy
         run: |
-          pyside6-android-deploy --config-file pysidedeploy.spec
+          ./venv/bin/pyside6-android-deploy --config-file pysidedeploy.spec
 
       - name: List files for debugging
         run: |

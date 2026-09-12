@@ -29,7 +29,11 @@ jobs:
 
       - name: Build APK with pyside6-android-deploy
         run: |
-          pyside6-android-deploy --config-file pysidedeploy.spec || true
+          pyside6-android-deploy --config-file pysidedeploy.spec
+
+      - name: List files for debugging
+        run: |
+          find . -name "*.apk"
 
       - name: Find and Upload APK Artifact
         uses: actions/upload-artifact@v4
@@ -38,3 +42,4 @@ jobs:
           path: |
             bin/*.apk
             **/*.apk
+            dist/*.apk
